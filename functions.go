@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"reflect"
-	"os"
+	"log"
+	//"os"
 	//"encoding/json"
 	"net/http"
 )
@@ -64,7 +65,8 @@ func Get(url string, pid string ) (chan *HttpResponse) {
 
 func CheckError(err error) {
 	if err != nil {
-		fmt.Println("Fatal error ", err.Error())
-		os.Exit(1)
+		fmt.Println("Fatal error ", err)
+		log.Fatal(err)
+		//os.Exit(1)
 	}
 }

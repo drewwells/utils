@@ -3,8 +3,8 @@ package utils
 import (
 	"fmt"
 	"io/ioutil"
-	"reflect"
 	"log"
+	"reflect"
 	//"os"
 	//"encoding/json"
 	"net/http"
@@ -22,7 +22,7 @@ func Enumerate(x interface{}) {
 
 	i := 0
 	for {
-		if(i >= val.NumField()){
+		if i >= val.NumField() {
 			break
 		}
 		//valueField := val.Field(i)
@@ -34,20 +34,21 @@ func Enumerate(x interface{}) {
 	}
 }
 
-func Get(url string, pid string ) (chan *HttpResponse) {
+func Get(url string, headers map[string]string) chan *HttpResponse {
 
-	channel  := make(chan *HttpResponse)
-	client   := &http.Client{}
+	channel := make(chan *HttpResponse)
+	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 
 	CheckError(err)
 
-	req.Header.Set("pid",pid)
-	req.Header.Set("fp","gormn")
+	for k, v := range headers {
+		req.Header.Set(k, v)
+	}
 
-	go func(){
+	go func() {
 		resp, err := client.Do(req)
-		
+
 		CheckError(err)
 
 		defer resp.Body.Close()
